@@ -1,0 +1,23 @@
+WITH TotalEnergyAugust AS (
+    SELECT d.deviceID, SUM(ec.totalEnergyConsumed) as SumTotalEnergy
+    FROM Devices d
+    JOIN EnergyConsumption ec ON ec.deviceID = d.deviceID
+    WHERE DATE(ec.eventTimestamp) BETWEEN '2022-08-01' AND '2022-08-31'
+    GROUP BY d.deviceID
+),
+
+TotalEnergySeptember AS (
+    SELECT d.deviceID, SUM(ec.totalEnergyConsumed) as SumTotalEnergy
+    FROM Devices d
+    JOIN EnergyConsumption ec ON ec.deviceID = d.deviceID
+    WHERE DATE(ec.eventTimestamp) BETWEEN '2022-09-01' AND '2022-09-30'
+    GROUP BY d.deviceID
+)
+
+SELECT sl.serviceLocID, ((SUM(tes.SumTotalEnergy) - SUM(tea.SumTotalEnergy)) / SUM(tea.SumTotalEnergy)) * 100 AS PercentageIncrease
+FROM ServiceLocations sl
+JOIN TotalEnergyAugust tea ON tea.deviceID = sl.deviceID
+JOIN TotalEnergySeptember tes ON tes.deviceID = sl.deviceID
+GROUP BY sl.serviceLocID
+ORDER BY PercentageIncrease DESC
+LIMIT 3;
