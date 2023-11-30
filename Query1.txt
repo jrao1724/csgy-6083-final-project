@@ -1,0 +1,6 @@
+SELECT c.customerID, d.deviceID, d.deviceType, d.modelNumber, ec.totalEnergyConsumed FROM Devices d
+JOIN EnergyConsumption ec ON ec.deviceID = d.deviceID
+JOIN ServiceLocations sl ON sl.serviceLocID = d.serviceLocID
+JOIN Customer c ON c.customerID = sl.customerID
+WHERE ec.eventTimestamp >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+GROUP BY c.customerID;

@@ -1,0 +1,11 @@
+WITH EventTimes AS (
+	SELECT TIME(closed.eventTimestamp) - TIME(opened.eventTimestamp) AS eventTime
+	FROM EnergyConsumption closed
+	JOIN EnergyConsumption opened ON (closed.eventLabel = ‘Door Closed’ AND opened.eventLabel = ‘Door Opened’)
+)
+SELECT DATE(ec.eventTimestamp) as Date, TIME(ec.eventTimestamp) as Time, d.serviceLocID, d.deviceID, d.modelNumber 
+FROM EnergyConsumption ec
+JOIN Devices d ON d.deviceID = ec.deviceID
+CROSS JOIN EventTimes et
+WHERE d.deviceType = ‘Refrigerator’
+AND MINUTE(et.eventTime) > 30;
