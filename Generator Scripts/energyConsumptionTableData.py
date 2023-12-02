@@ -36,8 +36,11 @@ for i in range(801):
     timestamp = dt.fromtimestamp(next(generator))
     priceTimeID = 0
     for index, row in price_data.iterrows():
-        if timestamp.time() >= row['timePeriodStart'].time() and timestamp.time() <= row['timePeriodEnd'].time():
+        if (timestamp.time() >= row['timePeriodStart'].time() and timestamp.time() <= row['timePeriodEnd'].time()):
             priceTimeID = row['priceTimeID']
+            break
+        elif (str(timestamp.time()) == '23:00:00'):
+            priceTimeID = 12
             break
     device_type = random.choice(device_types)
     device_action = random.choice(device_actions[device_type])
