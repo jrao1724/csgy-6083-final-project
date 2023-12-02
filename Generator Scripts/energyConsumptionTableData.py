@@ -88,7 +88,7 @@ for i in range(801):
         numValue = None
         deviceID = device_data.loc[device_data['deviceType'] == device_type].sample(n=1)['deviceID'].values[0]
     
-    mysql_statement = f"INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('{timestamp}', '{eventLabel}', '{numValue}', '{totalEnergyConsumed}', {deviceID}, {priceTimeID});".replace('None', 'NULL')
+    mysql_statement = f"INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('{timestamp}', '{eventLabel}', {numValue}, {totalEnergyConsumed}, {deviceID}, {priceTimeID});".replace('None', 'NULL')
     mysql_statements.append(mysql_statement)
 
 
