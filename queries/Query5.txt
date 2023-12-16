@@ -1,0 +1,30 @@
+WITH SimilarSqFt AS (
+    SELECT serviceLoc1.serviceLocID, AVG(serviceLoc1.squareFootage) AS avgSqFt
+    FROM ServiceLocation serviceLoc1
+    JOIN ServiceLocation serviceLoc2 ON serviceLoc1.serviceLocID <> serviceLoc2.serviceLocID
+    WHERE ABS(serviceLoc1.squareFootage - avgSqFt) / avgSqFt <= 0.05
+    GROUP BY serviceLoc1.serviceLocID
+),
+August2022EnergyConsumption AS (
+    SELECT serviceLoc3.serviceLocID, SUM(ec.totalEnergyConsumed) AS TotalEnergyConsumption
+    FROM ServiceLocation serviceLoc3
+    JOIN Device d ON serviceLoc3.serviceLocID = d.sl_id
+    JOIN EnergyLog el ON d.dev_id = el.dev_id
+    WHERE el.el_time >= '2022-08-01' AND el.el_time < '2022-09-01'
+    GROUP BY sl.sl_id
+),
+SELECT
+    sl.sl_id AS ServiceLocationID,
+    sl.sl_squarefootage,
+    ae.TotalEnergyConsumption AS AugustEnergyConsumption,
+    (ae.TotalEnergyConsumption / CASE WHEN ssf.AvgSquareFootage IS NULL THEN 1 ELSE ssf.AvgSquareFootage END) * 100 AS PercentageOfAvgConsumption
+FROM ServiceLocation sl
+LEFT JOIN AugustEnergy ae ON sl.sl_id = ae.ServiceLocationID
+LEFT JOIN SimilarSquareFootage ssf ON sl.sl_id = ssf.ServiceLocationID
+ORDER BY sl.sl_id; 
+
+
+
+WITH AvgEnergyConsumption as (
+    
+)

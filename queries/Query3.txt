@@ -1,7 +1,7 @@
 WITH EventTimes AS (
 	SELECT TIME(closed.eventTimestamp) - TIME(opened.eventTimestamp) AS eventTime
 	FROM EnergyConsumption closed
-	JOIN EnergyConsumption opened ON (closed.eventLabel = ‘Door Closed’ AND opened.eventLabel = ‘Door Opened’)
+	JOIN EnergyConsumption opened ON (closed.eventLabel = ‘Door Closed’ AND opened.eventLabel = ‘Door Opened’) and closed.deviceID = opened.deviceID
 )
 SELECT DATE(ec.eventTimestamp) as Date, TIME(ec.eventTimestamp) as Time, d.serviceLocID, d.deviceID, d.modelNumber 
 FROM EnergyConsumption ec

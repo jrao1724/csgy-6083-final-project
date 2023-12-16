@@ -78,7 +78,7 @@ INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergy
 INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 06:00:00', 'temp lowered', 70, 5, 72, 3);
 INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 07:00:00', 'temp raised', 75, 5, 51, 4);
 INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 08:00:00', 'door opened', NULL, 4, 27, 4);
-INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 09:00:00', 'door opened', NULL, 4, 45, 5);
+INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 09:00:00', 'door closed', NULL, 4, 27, 5);
 INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 10:00:00', 'temp raised', 71, 5, 4, 5);
 INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 11:00:00', 'door opened', NULL, 4, 6, 6);
 INSERT INTO EnergyConsumption (eventTimestamp, eventLabel, numValue, totalEnergyConsumed, deviceID, priceTimeID) VALUES ('2022-08-04 12:00:00', 'medium', NULL, 4, 12, 6);
