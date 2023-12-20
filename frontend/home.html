@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <style>
+    .courses-container {
+      flex: 1;
+      padding: 20px;
+      width: 80%;
+      margin: auto;
+    }
+
+    .courses-banner {
+      color: blueviolet;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    </style>
+</head>
+<div class="courses-banner"><h1>Your Service Locations</h1></div>
+<div class="courses-container" id="courses-container"></div>
+
+<body>
+    <ul>
+        <li>
+            <span>Apt 4D, 101 Wall St, NY, 10004</span>
+            <ol>
+                <li><a href="./energyByDay.html">Energy Consumption by Day</a></li>
+                <li><a href="./energyByWeek.html">Energy Consumption by Week</a></li>
+                <li><a href="./energyByMonth.html">Energy Consumption by Month</a></li>
+            </ol>
+        </li>
+        <br><br>
+        <li>
+            <span>Apt 8H, 505 Park Pl, NY, 10008</span>
+            <ol>
+                <li><a href="./energyByDay.html">Energy Consumption by Day</a></li>
+                <li><a href="./energyByWeek.html">Energy Consumption by Week</a></li>
+                <li><a href="./energyByMonth.html">Energy Consumption by Month</a></li> 
+            </ol>
+        </li>
+        <br><br>
+        <li>
+            <span>Apt 28BB, 505 Park Pl, NY, 10008</span>
+            <ol>
+                <li><a href="./energyByDay.html">Energy Consumption by Day</a></li>
+                <li><a href="./energyByWeek.html">Energy Consumption by Week</a></li>
+                <li><a href="./energyByMonth.html">Energy Consumption by Month</a></li> 
+            </ol>
+        </li>
+    </ul>
+
+    <script>
+        function addNewRow() {
+          var newRow = document.createElement('div');
+          newRow.className = 'courses-row';
+          document.getElementById('courses-container').appendChild(newRow);
+          return newRow;
+        }
+    </script>
+
+    <script>
+        function addServLoc(servLoc) {
+          var lastRow = document.querySelector('.courses-row:last-of-type');
+          if ((!lastRow) || (lastRow.children.length === 3)) {
+            lastRow = addNewRow();
+          }
+          var newServLoc = document.createElement('button');
+          newServLoc.className = 'course-card';
+          newServLoc.id = servLoc;
+          newServLoc.innerHTML = "<h2>" + servLoc + "<h2>"
+          lastRow.appendChild(newServLoc);
+          // newCourse.addEventListener("click", getFileList(params));
+          newServLoc.onclick = function() {
+            window.location.replace("./servLoc.html?" + "servLoc=" + servLoc)
+          }
+        }
+      </script>
+
+
+</body>
+</html>

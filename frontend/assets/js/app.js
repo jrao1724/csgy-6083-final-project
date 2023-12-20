@@ -220,12 +220,52 @@ function getCourseContent() {
   
 }
 
-function authenticateUser(params) {
-  sdk.loginPost(params, {}, {}).then((res) => {
+async function authenticateUser(params) {
+  let data = new FormData()
+  data.append("email", params['email'])
+  data.append("password", params['password'])
+
+  let fetchFormEncodedRequest = {
+    method: "POST",
+    body: data
+  }
+
+  fetch('http://127.0.0.1:5000/login', fetchFormEncodedRequest).then(function(res) {
     if (res.status === 200) {
-      console.log("Successfully authenticated user.")
-      localStorage.setItem('username', params['username']);
-      window.location.replace('./courses.html')
+      res.json().then(function(data)
+      {
+        console.log(data);
+        localStorage.setItem('email', params['email'])
+        window.location.replace('./home.html')
+      })
+    }
+  })
+}
+
+function registerUser(params) {
+  let data = new FormData()
+  data.append("fname", params['fname'])
+  data.append("lname", params['lname'])
+  data.append("email", params['email'])
+  data.append("password", params['password'])
+  data.append("street", params['street'])
+  data.append("city", params['city'])
+  data.append("state", params['state'])
+  data.append("zipcode", params['zipcode'])
+
+  let fetchFormEncodedRequest = {
+    method: "POST",
+    body: data
+  }
+
+  fetch('http://127.0.0.1:5000/registerUser', fetchFormEncodedRequest).then(function(res) {
+    if (res.status === 200) {
+      res.json().then(function(data)
+      {
+        console.log(data);
+        localStorage.setItem('email', params['email']);
+        window.location.replace('./home.html');
+      })
     }
   })
 }
