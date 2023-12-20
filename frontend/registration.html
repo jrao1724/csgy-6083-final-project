@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #444563;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #7D7ED8;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6665b3;
+        }
+        /* NAVBAR */
+
+        .navbar {
+          clear: both;
+          overflow: auto;
+          border: 1px dotted palevioletred;
+        }
+
+        .navbar img {
+          width: 400px;
+          float: left;
+        }
+
+        nav {
+          float: right;
+        }
+
+        ul {
+          margin-bottom: 0;
+          padding-inline-start: 0;
+          text-align: center;
+        }
+
+        ul li {
+          display: inline-block; 
+          padding: 10px;
+          font-size: 16px; 
+        }
+
+        ul li:hover, ul li:active {
+          color: #8789FE;
+        }
+
+        ul li:active {
+          font-weight: 900;
+        }
+
+        /* end NAVBAR */
+
+    </style>
+</head>
+<body>
+  <div class="navbar">
+    <img src="/Users/agnespark/cc/frontend/assets/logo-no-background 2.png" alt="SummItUp Logo" />
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>My Account</li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="register-container">
+    <form onsubmit="return register()">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Register</button>
+    </form>
+  </div>
+
+    <script>
+      function register() {
+        event.preventDefault();
+
+        var email = document.getElementById('email').value;
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        var requestBody = {
+            "email": email,
+            "username": username,
+            "password": password
+        };
+
+        // sdk
+
+    }
+  </script>
+</body>
+</html>
