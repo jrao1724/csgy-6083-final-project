@@ -129,18 +129,14 @@
     </div>
 
     <script>
-        var sdk = apigClientFactory.newClient({});
-    </script>
-
-    <script>
         function login() {
             event.preventDefault();
 
-            var email = document.getElementById('email').value;
+            var username = document.getElementById('email').value;
             var password = document.getElementById('password').value;
 
             var params = {
-                "email": email,
+                "email": username,
                 "password": password
             };
 

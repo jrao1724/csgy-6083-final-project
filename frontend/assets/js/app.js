@@ -158,69 +158,7 @@ function getSummary(courseName, fileName) {
   );
 }
 
-function populateFileTable(arr) {
-  const tableBody = document.getElementById('fileTableBody');
-
-  // Clear existing rows
-  tableBody.innerHTML = '';
-
-  // Iterate through the array and create table rows
-  arr.forEach(fileInfo => {
-    const row = document.createElement('tr');
-    const titleCell = document.createElement('td');
-    const uploadDateCell = document.createElement('td');
-    const summaryCell = document.createElement('td');
-
-    // Fill in cell content
-    titleCell.textContent = arr['File Name & Type'];
-    uploadDateCell.textContent = arr['Date Uploaded'];
-    summaryCell.textContent = arr['Summary Available'];
-
-    // Append cells to the row
-    row.appendChild(titleCell);
-    row.appendChild(uploadDateCell);
-    row.appendChild(summaryCell);
-
-    // Append the row to the table body
-    tableBody.appendChild(row);
-    });
-}
-
-
-function getCourseContent() {
-  const uName = 'jr6594',
-  cName = 'csgy9223';
-  var content = [];
-
-  var params = {
-    'userName': uName,
-    'courseName': cName
-  }
-
-  sdk.userNameCourseNameGet(params, {}, {})
-    .then((res) => {
-      if (res.status == 200) {
-        console.log(res.data);
-        for (var i=0; i < res.data.length; i++) {
-          const seed = new Date().getTime();
-          Math.seedrandom(seed);
-          const randomNumber = Math.random();
-          const today = new Date();
-          const formattedDate = `${today.getMonth() + 1}-${last14Days.getDate()}-${last14Days.getFullYear()}`;
-
-          content[i] = {'File Name & Type': res.data[i], 'Date Uploaded': formattedDate, 'Summary Available': Boolean(randomNumber >= 0.5)};
-        }
-        populateFileTable(content)
-      }
-    }).catch( () => {
-      console.log("failed");
-    }
-    
-  );
-  
-}
-
-async function authenticateUser(params) {
+function authenticateUser(params) {
   let data = new FormData()
   data.append("email", params['email'])
   data.append("password", params['password'])
@@ -230,12 +168,13 @@ async function authenticateUser(params) {
     body: data
   }
 
-  fetch('http://127.0.0.1:5000/login', fetchFormEncodedRequest).then(function(res) {
+  fetch('http://127.0.0.1:8000/login', fetchFormEncodedRequest).then(function(res) {
     if (res.status === 200) {
       res.json().then(function(data)
       {
         console.log(data);
-        localStorage.setItem('email', params['email'])
+        localStorage.setItem('customerID', data['customerID'])
+        localStorage.setItem('email', data['email'])
         window.location.replace('./home.html')
       })
     }
@@ -258,28 +197,99 @@ function registerUser(params) {
     body: data
   }
 
-  fetch('http://127.0.0.1:5000/registerUser', fetchFormEncodedRequest).then(function(res) {
+  fetch('http://127.0.0.1:8000/registerUser', fetchFormEncodedRequest).then(function(res) {
     if (res.status === 200) {
       res.json().then(function(data)
       {
         console.log(data);
-        localStorage.setItem('email', params['email']);
+        localStorage.setItem('customerID', data['customerID']);
         window.location.replace('./home.html');
       })
     }
   })
 }
 
-function getFileList(params) {
-  const fileList = sdk.userNameCourseNameGet(params, {}, {}).then((res => {
-    if (res.status === 200) {
-      return res['data'];
-    }
-  })).catch( () => {
-    console.log("failed");
-    });
+function getServiceLocationsForCustomer() {
+  customerID = localStorage.getItem('customerID')
 
-    return fileList;
+  let fetchFormEncodedRequest = {
+    method: "POST",
+  }
+
+  fetch('http://127.0.0.1:8000/getServiceLocations?customerID=' + customerID, fetchFormEncodedRequest)
+  .then((res) => {
+    if (res.status == 200) {
+      return res.json();
+    }
+  })
+  .then(function(json) {
+    return json;
+  });
 }
 
+async function getDevicesForServiceLocation() {
+  urlParams = new URLSearchParams(window.location.search)
+  serviceLocID = urlParams.get('serviceLocID')
 
+  let fetchFormEncodedRequest = {
+    method: "POST",
+  }
+
+  const response = await fetch('http://127.0.0.1:8000/getDevices?serviceLocID=' + serviceLocID, fetchFormEncodedRequest);
+  return await response.json();
+}
+
+function addDevicesToServiceLocation(params) {
+  let data = new FormData()
+  data.append("serviceLocID", params['serviceLocID'])
+  data.append("deviceType", params['deviceType'])
+  data.append("deviceModel", params['deviceType'])
+
+  let fetchFormEncodedRequest = {
+    method: "POST",
+    body: data
+  }
+
+  fetch('http://127.0.0.1:8000/addDevice', fetchFormEncodedRequest).then(function(res) {
+    if (res.status === 200) {
+      res.json().then(function(data) {
+        console.log(data)
+        return data;
+      });
+    }
+  });
+}
+
+function addServiceLocationToDB() {
+  var street = document.getElementById('sl-street').value.trim();
+  var unit = document.getElementById('sl-unit').value.trim();
+  var city = document.getElementById('sl-city').value.trim();
+  var state = document.getElementById('sl-state').value.trim();
+  var zipCode = document.getElementById('sl-zipcode').value.trim();
+  var dateTakenOver = document.getElementById('sl-dateTakenOver').value.trim();
+  var squareFootage = document.getElementById('sl-squareFootage').value.trim();
+  var numBedrooms = document.getElementById('sl-numBedrooms').value.trim();
+  var numOccupants = document.getElementById('sl-numOccupants').value.trim();
+
+  if (!classLabel1Value || classLabel1Value.length === 0) {
+    alert("You must provide a class title");
+    return false;
+  }
+
+  if (divElement.textContent.trim().length > 0) 
+
+  var params = {
+    "userName": 'ap2963', 
+    "className": classLabel1Value
+  };
+
+  sdk.userNameCreateCoursePost(params, {}, {})
+    .then(function (result) {
+      console.log('Folder created successfully:', result);
+      alert("Success!");
+    })
+    .catch(function (error) {
+      console.error('Error:', error);
+      alert("Error");
+    });
+}
